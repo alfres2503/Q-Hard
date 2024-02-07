@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "+yHJ4uIVRLcdHUC/diOtkylzFdBER7juwCSoSH/FOmAP/SOrp4QJa8+a3vzTyQUO64NHQe9B1+s9ofKRoN5kLQ==",
+  "dgSpecHash": "G7QxRUFcQHig5XTlxalkbCTd8xkHi/PMUKsUegrO9OED2BPCJr+ctZShkgCnj0PmQIR+Sw27GxUhqzs9gipYuw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Alfredo\\Desktop\\q-hard\\AsomamecoAPI\\AsomamecoAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alfredo\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Alfredo\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\Alfredo\\.nuget\\packages\\efcore.namingconventions\\8.0.3\\efcore.namingconventions.8.0.3.nupkg.sha512",
     "C:\\Users\\Alfredo\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Alfredo\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\Alfredo\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.3\\microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",

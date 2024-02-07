@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AsomamecoAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f913949be3a92d1b608411ef0045c1890d134085")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8ee12bd599e6b2bf8da6ba580e050c973dde3b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("AsomamecoAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AsomamecoAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
