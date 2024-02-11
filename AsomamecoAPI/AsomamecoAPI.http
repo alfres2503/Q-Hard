@@ -1,6 +1,0 @@
-@AsomamecoAPI_HostAddress = http://localhost:5182
-
-GET {{AsomamecoAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
