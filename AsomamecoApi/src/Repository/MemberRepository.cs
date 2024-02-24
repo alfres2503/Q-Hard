@@ -14,11 +14,14 @@ namespace src.Repository
         }
 
         // async method to get all members
-        public async Task<IEnumerable<Member>> GetAll()
+        public async Task<IEnumerable<Member>> GetAll(int pageNumber, int pageSize)
         {
             try
             {
                 return await _context.Member
+                    .OrderBy(m => m.Id)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
                     .Select(m => new Member
                     {
                         Id = m.Id,
@@ -28,11 +31,7 @@ namespace src.Repository
                         LastName = m.LastName,
                         Email = m.Email,
                         IsActive = m.IsActive,
-                        Role = new Role
-                        {
-                            Id = m.Role.Id,
-                            Description = m.Role.Description
-                        }
+                        Role = m.Role
                     })
                     .ToListAsync();
             }
@@ -79,11 +78,7 @@ namespace src.Repository
                         LastName = m.LastName,
                         Email = m.Email,
                         IsActive = m.IsActive,
-                        Role = new Role
-                        {
-                            Id = m.Role.Id,
-                            Description = m.Role.Description
-                        }
+                        Role = m.Role
                     })
                     .FirstOrDefaultAsync(m => m.Id == id);
             }
@@ -97,13 +92,17 @@ namespace src.Repository
             }
         }
 
-        public async Task<Member> Add(Member member)
+        public async Task<Member> Create(Member member)
         {
             try
             {
-                _context.Member.Add(member);
+                await _context.Member.AddAsync(member);
                 await _context.SaveChangesAsync();
-                return member;
+
+                if (this.GetByID(member.Id) != null)
+                    return member;
+                else
+                    throw new Exception("Member not created");
             }
             catch (DbUpdateException dbEx)
             {
@@ -115,20 +114,20 @@ namespace src.Repository
             }
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             bool deletedStatus = false;
             try
             {
-                Member member = _context.Member.Find(id);
+                Member member = await _context.Member.FindAsync(id);
 
                 if (member == null)
                     return deletedStatus;
 
                 _context.Member.Remove(member);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
-                member = _context.Member.Find(id);
+                member = await _context.Member.FindAsync(id);
                 if (member == null)
                     deletedStatus = true;
 
@@ -144,12 +143,12 @@ namespace src.Repository
             }
         }
 
-        public Member Update(Member member)
+        public async Task<Member> Update(Member member)
         {
             try
             {
                 _context.Entry(member).State = EntityState.Modified;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return member;
             }
             catch (DbUpdateException dbEx)

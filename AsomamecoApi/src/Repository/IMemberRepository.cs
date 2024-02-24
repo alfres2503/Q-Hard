@@ -9,11 +9,11 @@ namespace src.Repository
 {
     public interface IMemberRepository 
     {
-        Task<IEnumerable<Member>> GetAll();
+        Task<IEnumerable<Member>> GetAll(int pageNumber, int pageSize);
         Task<Member> GetByID(int id);
         Task<Member> GetByEmail(string email);
-        Task<Member> Add(Member member);
-        Member Update(Member member);
-        bool Delete(int id);
+        Task<Member> Create(Member member);
+        Task<Member> Update(Member member);
+        Task<bool> Delete(int id);
     }
 }
