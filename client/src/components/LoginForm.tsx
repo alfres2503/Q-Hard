@@ -1,14 +1,15 @@
-import { useMemberProvider } from "@/context/MemberContext";
 import { AuthService } from "@/utils/AuthService";
-import Router from "next/router";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { FaEnvelope } from "react-icons/fa";
 import { MdLockOutline } from "react-icons/md";
 import Button from "./common/Button";
+import Input from "./common/Input";
 
 const authService = new AuthService();
 
 const LoginForm = () => {
+  let buttonIsEnabled: boolean = true;
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,37 +21,50 @@ const LoginForm = () => {
 
     const memberResponse = await authService.loginMember(member);
 
+    buttonIsEnabled = true;
+
     if (memberResponse) {
+      buttonIsEnabled = false;
       // Router.push("/");
       window.location.href = "/";
+    } else {
+      buttonIsEnabled = true;
     }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
   };
 
   return (
     <>
       <div className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto my-2 ">
-        <div className="pb-1 pt-1 flex items-center rounded-lg bg-[#052850]">
+        <div className="pb-1 pt-1 flex items-center rounded-lg bg-asomamecoDarkBlue">
           <FaEnvelope className="text-gray-100 m-4 block"></FaEnvelope>
-          <input
+          <Input
             type="email"
             name="email"
             id="email"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Correo Electrónico"
             className="block w-full p-3 pl-1 text-lg rounded-lg bg-[#052850] focus:outline-none placeholder-gray-100"
-          ></input>
+          ></Input>
         </div>
         <div className="pb-2 pt-4 "></div>
-        <div className="pb-1 pt-1 flex items-center bg-[#052850] rounded-lg ">
+        <div className="pb-1 pt-1 flex items-center bg-asomamecoDarkBlue rounded-lg ">
           <MdLockOutline className="text-gray-100 m-4 block"></MdLockOutline>
-          <input
-            className="block w-full p-3 pl-1 text-lg rounded-lg bg-[#052850] focus:outline-none placeholder-gray-100"
+          <Input
+            className="w-full p-3 pl-1 text-lg"
             type="password"
             name="password"
             onChange={(e) => setPassword(e.target.value)}
             id="password"
             placeholder="Contraseña"
-          ></input>
+          ></Input>
         </div>
         <div className="flex justify-between text-gray-400">
           <label className="my-7  hover:text-gray-100">
@@ -68,10 +82,12 @@ const LoginForm = () => {
 
         <div className="pb-2 pt-4">
           <Button
-            text="Iniciar Sesión"
+            isDisabled={!buttonIsEnabled}
             onClick={logIn}
             className="w-full p-4 text-lg"
-          ></Button>
+          >
+            Iniciar sesión
+          </Button>
         </div>
       </div>
     </>
