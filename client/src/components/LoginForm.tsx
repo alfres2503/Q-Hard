@@ -12,6 +12,7 @@ const LoginForm = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorText, setErrorText] = useState("");
 
   const logIn = async () => {
     const member = {
@@ -29,6 +30,7 @@ const LoginForm = () => {
       window.location.href = "/";
     } else {
       buttonIsEnabled = true;
+      setErrorText("Credenciales incorrectas.")
     }
   };
 
@@ -43,6 +45,7 @@ const LoginForm = () => {
   return (
     <>
       <div className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto my-2 ">
+        
         <div className="pb-1 pt-1 flex items-center rounded-lg bg-asomamecoDarkBlue">
           <FaEnvelope className="text-gray-100 m-4 block"></FaEnvelope>
           <Input
@@ -80,6 +83,7 @@ const LoginForm = () => {
           </a>
         </div>
 
+        <h3 className="text-red-600">{errorText}</h3>
         <div className="pb-2 pt-4">
           <Button
             isDisabled={!buttonIsEnabled}
