@@ -11,19 +11,19 @@ const Footer = () => {
           © {currentYear} Asomameco. Todos los derechos reservados.
         </p>
         <nav className="flex items-center justify-center space-x-4 text-sm">
-          <Link className="text-gray-400" href="/">
+          <Link className="text-gray-600" href="/">
             Inicio
           </Link>
-          <Link className="text-gray-400" href="/about">
+          <Link className="text-gray-600" href="/about">
             Acerca de
           </Link>
-          <Link className="text-gray-400" href="/events">
+          <Link className="text-gray-600" href="/events">
             Eventos
           </Link>
-          <Link className="text-gray-400" href="/contact">
+          <Link className="text-gray-600" href="/contact">
             Contacto
           </Link>
-          <Link className="text-gray-400" href="/login">
+          <Link className="text-gray-600" href="/login">
             Ingresar
           </Link>
         </nav>
