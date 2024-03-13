@@ -56,6 +56,23 @@ namespace test.Services
             _repositoryMock.Verify(repo => repo.GetAll(1, 10), Times.Once);
         }
 
+        // Test Get Total
+        [Fact]
+        public async Task GetTotal_ShouldReturnData_WhenDataFound()
+        {
+            // Arrange
+            var membersMock = _fixture.CreateMany<Member>(50).ToList();
+
+            _repositoryMock.Setup(repo => repo.GetCount()).ReturnsAsync(membersMock.Count);
+
+            // Act
+            var result = await _service.GetCount().ConfigureAwait(false);
+
+            // Assert
+            result.Should().Be(50); // 50
+            _repositoryMock.Verify(repo => repo.GetCount(), Times.Once);
+        }
+
         // Test Get By Email
         [Fact]
         public async Task GetByEmail_ShouldReturnData_WhenDataFound()
@@ -229,6 +246,41 @@ namespace test.Services
             _repositoryMock.Verify(repo => repo.Update(memberMock), Times.Once);
         }
 
+        // Test Change State
+        [Fact]
+        public async Task ChangeState_ShouldReturnUpdatedData_WhenDataUpdated()
+        {
+            // Arrange
+            var memberMock = _fixture.Create<Member>();
+            var response = _fixture.Create<Member>();
 
+            _repositoryMock.Setup(repo => repo.ChangeState(memberMock.Id)).ReturnsAsync(response);
+
+            // Act
+            var result = await _service.ChangeState(memberMock.Id).ConfigureAwait(false);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeAssignableTo<Member>();
+            // response.IsActive should be different from memberMock.IsActive
+            result.IsActive.Should().NotBe(memberMock.IsActive);
+            _repositoryMock.Verify(repo => repo.ChangeState(memberMock.Id), Times.Once);
+        }
+
+        [Fact]
+        public async Task ChangeState_ShouldReturnNull_WhenDataNotUpdated()
+        {
+            // Arrange
+            var memberMock = _fixture.Create<Member>();
+
+            _repositoryMock.Setup(repo => repo.ChangeState(memberMock.Id)).ReturnsAsync((Member)null);
+
+            // Act
+            var result = await _service.ChangeState(memberMock.Id).ConfigureAwait(false);
+
+            // Assert
+            result.Should().BeNull();
+            _repositoryMock.Verify(repo => repo.ChangeState(memberMock.Id), Times.Once);
+        }
     }
 }
