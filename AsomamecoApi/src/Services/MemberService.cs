@@ -22,6 +22,15 @@ namespace src.Services
             
         }
 
+        public async Task<int> GetCount()
+        {
+            try { return await _memberRepository.GetCount().ConfigureAwait(false); }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred: {ex.Message}", ex);
+            }
+        }
+
         public async Task<Member> GetByEmail(string email)
         {
             try { return await _memberRepository.GetByEmail(email).ConfigureAwait(false); }
@@ -60,6 +69,15 @@ namespace src.Services
         public async Task<bool> Delete(int id)
         {
             try { return await _memberRepository.Delete(id); }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred: {ex.Message}", ex);
+            }
+        }
+
+        public async Task<Member> ChangeState(int id)
+        {
+            try { return await _memberRepository.ChangeState(id); }
             catch (Exception ex)
             {
                 throw new Exception($"An error occurred: {ex.Message}", ex);

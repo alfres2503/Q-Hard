@@ -45,6 +45,22 @@ namespace src.Repository
             }
         }
 
+        public async Task<int> GetCount()
+        {
+            try
+            {
+                return await _context.Member.CountAsync();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                throw new Exception($"Database error: {dbEx.Message}", dbEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred: {ex.Message}", ex);
+            }
+        }
+
         public async Task<Member> GetByEmail(string email)
         {
             try
@@ -141,6 +157,25 @@ namespace src.Repository
             {
                 throw new Exception($"An error occurred: {ex.Message}", ex);
             }
+        }
+
+        public async Task<Member> ChangeState(int id)
+        {
+            try
+            {
+                _context.Member.Find(id).IsActive = !_context.Member.Find(id).IsActive;
+                await _context.SaveChangesAsync();
+                return await _context.Member.FindAsync(id);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                throw new Exception($"Database error: {dbEx.Message}", dbEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred: {ex.Message}", ex);
+            }
+
         }
 
         public async Task<Member> Update(Member member)
