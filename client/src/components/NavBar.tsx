@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { Fragment } from "react";
-import Button from "./common/Button";
-import { LuLogOut } from "react-icons/lu";
+import React, { Fragment, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { usePathname } from "next/navigation";
-import { useMemberProvider } from "@/context/provider/MemberProvider";
 import { CgClose } from "react-icons/cg";
-import { FaHamburger } from "react-icons/fa";
-import { GiHamburger, GiHamburgerMenu } from "react-icons/gi";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { useMember } from "@/hooks/useAuth";
+import { AuthService } from "@/services/AuthService";
+import { useNotification } from "@/hooks/useNotification";
+import { useRouter } from "next/router";
 
 const navigation = [
   { name: "Panel", href: "/app" },
@@ -23,8 +23,22 @@ function classNames(...classes: string[]) {
 
 const NavBar = () => {
   const pathname = usePathname();
+  const router = useRouter();
 
-  const { currentMember } = useMemberProvider() as any;
+  const { currentMember } = useMember();
+  const { Notification } = useNotification();
+
+  const handleLogout = async () => {
+    try {
+      await AuthService.logout();
+      router.push("/");
+    } catch (error) {
+      Notification(
+        `Ocurrió un error inesperado. Por favor, inténtelo de nuevo. ${error}`,
+        "ERROR"
+      );
+    }
+  };
 
   return (
     <Disclosure as="nav" className="bg-white shadow-sm">
@@ -88,7 +102,7 @@ const NavBar = () => {
                                 active ? "bg-gray-100" : "",
                                 "flex w-full px-4 py-2 text-sm text-gray-700"
                               )}
-                              onClick={() => {}}
+                              onClick={handleLogout}
                             >
                               Sign out
                             </button>
@@ -153,7 +167,7 @@ const NavBar = () => {
                 <>
                   <div className="mt-3 space-y-1">
                     <button
-                      onClick={() => {}}
+                      onClick={handleLogout}
                       className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                     >
                       Sign out
