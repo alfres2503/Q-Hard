@@ -241,7 +241,7 @@ namespace src.Repository
                 _context.Member.Find(id).IsActive = member.IsActive;
 
                 if (member.Password != null)
-                    _context.Member.Find(id).Password = member.Password;
+                    _context.Member.Find(id).Password = Cryptography.EncryptAES(member.Password);
 
                 await _context.SaveChangesAsync();
                 return await _context.Member
