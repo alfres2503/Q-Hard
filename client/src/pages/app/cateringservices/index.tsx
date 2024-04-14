@@ -1,7 +1,7 @@
 import { GenericService } from "@/services/GenericService";
 import React, { useEffect, useState } from "react";
 import Layout from "../layout";
-import { Member } from "@/types/models/Member";
+import { CateringService } from "@/types/models/CateringService";
 import {
   Switch,
   Table,
@@ -23,12 +23,12 @@ import { useNotification } from "@/hooks/useNotification";
 import { useRouter } from "next/router";
 import { useMember } from "@/hooks/useAuth";
 
-const MembersPage = () => {
+const cateringservicePage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [members, setMembers] = useState([]);
+  const [cateringservices, setCateringServices] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const { currentMember } = useMember();
@@ -75,12 +75,12 @@ const MembersPage = () => {
     // Obtener los datos de la API en base a los parametros de la URL
     const fetchData = async () => {
       try {
-        const endpoint = `members?pageNumber=${pageNumber}&pageSize=${pageSize}
+        const endpoint = `cateringservices?pageNumber=${pageNumber}&pageSize=${pageSize}
           &searchTerm=${searchTerm}&orderBy=${orderBy}`;
 
         const response = await GenericService.list(endpoint);
 
-        setMembers(response.data.list);
+        setCateringServices(response.data.list);
         setTotalPages(response.data.totalPages);
       } catch (error: any) {
         Notification(`Acerca del error: ${error.message}`);
@@ -94,7 +94,7 @@ const MembersPage = () => {
   return (
     <Layout>
       <section className="p-0 md:p-0 mx-auto max-w-9xl">
-        {members.length === 0 ? (
+        {cateringservices.length === 0 ? (
           <div className="flex items-center justify-center mt-5">
             <span className="text-lg font-bold">
               {isLoading
@@ -106,27 +106,16 @@ const MembersPage = () => {
           <div className="flex flex-col justify-center gap-10 mx-10 mt-10">
             {/* Title & add button */}
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl mx-3 font-bold">Miembros</h1>
-              <div className="flex gap-2">
-                <Button
-                  onClick={() => {
-                    router.push("/app/members/create");
-                  }}
-                  className=" text-white p-2 text-xs flex items-center gap-2"
-                >
-                  <IoIosAddCircle />
-                  Registrar
-                </Button>
-                <Button color="blue"
-                  onClick={() => {
-                    router.push("/app/roles");
-                  }}
-                  className=" text-white p-2 text-xs flex items-center gap-2"
-                >
-                  <IoIosAddCircle />
-                  Roles
-                </Button>
-              </div>
+              <h1 className="text-2xl mx-3 font-bold">Catering Services</h1>
+              <Button
+                onClick={() => {
+                  router.push("/app/cateringservices/create");
+                }}
+                className=" text-white p-2 text-xs flex items-center gap-2"
+              >
+                <IoIosAddCircle />
+                Registrar
+              </Button>
             </div>
 
             {/* SearchBar */}
@@ -145,11 +134,11 @@ const MembersPage = () => {
                       <button onClick={SortByName}>Nombre</button>
                     </TableHeaderCell>
 
-                    <TableHeaderCell>Apellido</TableHeaderCell>
-
                     <TableHeaderCell>
                       <button onClick={SortByEmail}>Correo</button>
                     </TableHeaderCell>
+
+                    <TableHeaderCell>Teléfono</TableHeaderCell>
 
                     <TableHeaderCell>
                       <button onClick={SortByActive}>Activo</button>
@@ -159,19 +148,19 @@ const MembersPage = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {members.map((member: Member) => (
-                    <TableRow key={member.id}>
-                      <TableCell>{member.firstName}</TableCell>
-                      <TableCell>{member.lastName}</TableCell>
-                      <TableCell>{member.email}</TableCell>
+                  {cateringservices.map((cateringservice: CateringService) => (
+                    <TableRow key={cateringservice.id}>
+                      <TableCell>{cateringservice.name}</TableCell>
+                      <TableCell>{cateringservice.email}</TableCell>
+                      <TableCell>{cateringservice.phone}</TableCell>
                       <TableCell>
-                        <Switch checked={member.isActive} onChange={() => { }} />
+                        <Switch checked={cateringservice.isActive} onChange={() => {}} />
                       </TableCell>
                       <TableCell className="flex gap-3">
                         {currentMember?.idRole === 1 && (
                           <Button
                             onClick={() => {
-                              router.push(`/app/members/edit/${member.id}`);
+                              router.push(`/app/cateringservices/edit/${cateringservice.id}`);
                             }}
                             className="text-xs text-white p-2"
                           >
@@ -181,7 +170,7 @@ const MembersPage = () => {
                         <Button
                           color="blue"
                           onClick={() => {
-                            router.push(`/app/members/${member.id}`);
+                            router.push(`/app/cateringservices/${cateringservice.id}`);
                           }}
                           className="text-xs text-white p-2"
                         >
@@ -210,4 +199,4 @@ const MembersPage = () => {
   );
 };
 
-export default MembersPage;
+export default cateringservicePage;

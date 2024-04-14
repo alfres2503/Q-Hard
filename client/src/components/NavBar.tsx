@@ -11,10 +11,10 @@ import { useNotification } from "@/hooks/useNotification";
 import { useRouter } from "next/router";
 
 const navigation = [
-  { name: "Panel", href: "/app" },
   { name: "Miembros", href: "/app/members" },
   { name: "Eventos", href: "/app/events" },
   { name: "Asociados", href: "/app/associates" },
+  { name: "Catering Service", href: "/app/cateringservices" },
 ];
 
 function classNames(...classes: string[]) {
@@ -48,7 +48,7 @@ const NavBar = () => {
             <div className="flex h-16 justify-between">
               <div className="flex">
                 <div className="flex flex-col justify-center flex-shrink-0 items-center relative top-2">
-                  <Link href="/">
+                  <Link href="/app">
                     <Image
                       src="/favicon.svg"
                       alt="Logo"
@@ -84,6 +84,7 @@ const NavBar = () => {
                       <div className="h-8 w-8 rounded-full bg-gradient-to-l  from-asomamecoPrimary-600 to-asomamecoPrimary-900" />
                     </Menu.Button>
                   </div>
+
                   <Transition
                     as={Fragment}
                     enter="transition ease-out duration-200"
@@ -162,6 +163,7 @@ const NavBar = () => {
                 </Disclosure.Button>
               ))}
             </div>
+
             <div className="border-t border-gray-200 pt-4 pb-3">
               {currentMember ? (
                 <>
